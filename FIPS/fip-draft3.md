@@ -1,15 +1,15 @@
 ---
 fip: "<to be assigned>"
-title: BLS Precompiles for the FEVM
-author: "Alice Example (@alice), Bob Developer (@bobdev)"
-discussions-to: "https://github.com/filecoin-project/FIPs/discussions/XXXX"
+title: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
+author: Aarav Mehta (aaravm), Michael Seiler (snissn)
+discussions-to: https://github.com/filecoin-project/FIPs/discussions/1135
 status: Draft
 type: Technical
 category: Core
 created: 2025-03-13
 ---
 
-# FIP-<to be assigned>: BLS Precompiles for the FEVM
+# FIP-<to be assigned>: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
 
 ## Simple Summary
 This proposal introduces a suite of precompiles for performing BLS12-381 curve operations within the Filecoin Ethereum Virtual Machine (FEVM). These precompiles enable efficient cryptographic operations—including point addition, multi-scalar multiplication, pairing checks, and field-to-curve mappings—supporting BLS signature verification and public key aggregation with over 120 bits of security.
@@ -111,12 +111,6 @@ Reference implementations of the BLS precompiles are available in Rust:
 - One implementation integrates with OpenEthereum, leveraging existing EIP-196 code as a base.
 - A dedicated implementation for the FEVM (e.g., in Geth) is under active development.
 These implementations follow the detailed pseudocode for gas calculation, error handling, and the precise arithmetic operations defined in this FIP.
-
-## TODO
-- Benchmark and validate the gas cost formulas in real-world FEVM deployments.
-- Develop comprehensive integration tests across different FEVM clients.
-- Finalize subgroup check optimizations and constant time considerations.
-- Gather community feedback and iterate on the detailed specification of each precompile.
 
 ## Copyright
 Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).

@@ -1,18 +1,18 @@
 ---
 fip: "<to be assigned>"
-title: Add Precompiles for BLS12-381 Curve Operations
-author: "Alex Vlasov (@shamatar), Kelly Olson (@ineffectualproperty), Alex Stokes (@ralexstokes), Antonio Sanso (@asanso)"
-discussions-to: https://github.com/filecoin-project/FIPs/discussions
+title: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
+author: Aarav Mehta (aaravm), Michael Seiler (snissn)
+discussions-to: https://github.com/filecoin-project/FIPs/discussions/1135
 status: Draft
 type: Technical
 category: Core
 created: 2024-05-01
 ---
 
-# FIP-XXXX: Add Precompiles for BLS12-381 Curve Operations
+# FIP-<to be assigned>: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
 
 ## Simple Summary
-This proposal adds seven new precompiles to the Filecoin Virtual Machine (FVM) to enable efficient operations over the BLS12-381 elliptic curve, including cryptographic primitives required for modern signature schemes and zero-knowledge proofs. These operations provide 120+ bits of security while maintaining compatibility with Ethereum's EIP-2537 standard.
+This proposal adds seven new precompiles to the Filecoin Ethereum Virtual Machine (FEVM) to enable efficient operations over the BLS12-381 elliptic curve, including cryptographic primitives required for modern signature schemes and zero-knowledge proofs. These operations provide 120+ bits of security while maintaining compatibility with Ethereum's EIP-2537 standard.
 
 ## Abstract
 We introduce seven precompiles supporting fundamental cryptographic operations on the BLS12-381 curve:

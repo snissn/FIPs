@@ -1,15 +1,15 @@
 ---
 fip: "<to be assigned>"
-title: Add Support for BLS12-381 Curve Precompiles in the FEVM
-author: "<Your Name> (@yourGitHubHandle)"
-discussions-to: <URL>
+title: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
+author: Aarav Mehta (aaravm), Michael Seiler (snissn)
+discussions-to: https://github.com/filecoin-project/FIPs/discussions/1135
 status: Draft
 type: Technical
 category: Core
 created: 2025-03-13
 ---
 
-# FIP-<to be assigned>: Add Support for BLS12-381 Curve Precompiles in the FEVM
+# FIP-<to be assigned>: Add Support for EIP-2537 (BLS12-381 Precompiles) in the Filecoin EVM runtime
 
 ## Simple Summary
 This proposal introduces a set of precompiles in the FEVM for efficient cryptographic operations on the BLS12-381 elliptic curve. These precompiles enable high-performance BLS signature verification and aggregation, enhancing compatibility with Ethereum tooling and supporting advanced cryptographic protocols on Filecoin.
@@ -61,12 +61,6 @@ BLS precompiles improve developer experience by enabling advanced applications (
 
 ## Implementation
 Reference implementation will be integrated into the `builtin-actors` FEVM runtime. A pull request with a working precompile set and test coverage will be submitted following FIP acceptance. The implementation will include gas metering, ABI validation, and subgroup enforcement.
-
-## TODO
-- Complete benchmarking of gas schedule per operation in the FEVM context
-- Publish test vectors derived from EIP-2537
-- Finalize reference implementation PR
-- Conduct security audit of precompile logic and subgroup checks
 
 ## Copyright
 Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
