@@ -15,13 +15,13 @@ created: 2025-03-13
 This proposal introduces a set of precompiles in the FEVM for efficient cryptographic operations on the BLS12-381 elliptic curve. These precompiles enable high-performance BLS signature verification and aggregation, enhancing compatibility with Ethereum tooling and supporting advanced cryptographic protocols on Filecoin.
 
 ## Abstract
-This FIP proposes the addition of precompiled contracts in the FEVM to support BLS12-381 curve operations, matching the functionality defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These precompiles provide efficient primitives for point addition, multi-scalar multiplication (MSM), field-to-curve mapping, and pairing checks, facilitating secure and performant BLS signature schemes. This enhancement increases the cryptographic capabilities of FEVM and aligns with Ethereum ecosystem standards.
+This FIP proposes the addition of precompiled functions in the FEVM to support BLS12-381 curve operations, matching the functionality defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These precompiles provide primitives for point addition, multi-scalar multiplication (MSM), field-to-curve mapping, and pairing checks, facilitating secure and performant BLS signature schemes. This enhancement increases the cryptographic capabilities of FEVM and aligns with Ethereum ecosystem standards.
 
 ## Change Motivation
 BLS12-381 precompiles are essential for supporting cryptographic primitives that require high security (≥120-bit) and efficient signature aggregation. These operations are fundamental to threshold signatures, decentralized identities, zk-rollups, and consensus mechanisms. Currently, the FEVM lacks native support for BLS12-381 operations, creating a performance and compatibility gap with Ethereum-based applications and protocols that rely on this curve. This FIP bridges that gap, bringing parity with Ethereum and enabling new cryptographic use cases on Filecoin.
 
 ## Specification
-This FIP mirrors [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) and introduces seven precompiled contracts for the following BLS12-381 curve operations:
+This FIP mirrors [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) and introduces seven precompiled functions for the following BLS12-381 curve operations:
 
 | Operation                     | Address | Description                                   |
 |-----------------------------|---------|-----------------------------------------------|
