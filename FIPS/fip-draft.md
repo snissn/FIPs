@@ -21,19 +21,28 @@ This FIP proposes the addition of precompiled functions in the FEVM to support B
 BLS12-381 precompiles are essential for supporting cryptographic primitives that require high security (≥120-bit) and efficient signature aggregation. These operations are fundamental to threshold signatures, decentralized identities, zk-rollups, and consensus mechanisms. Currently, the FEVM lacks native support for BLS12-381 operations, creating a performance and compatibility gap with Ethereum-based applications and protocols that rely on this curve. This FIP bridges that gap, bringing parity with Ethereum and enabling new cryptographic use cases on Filecoin.
 
 ## Specification
-This FIP mirrors [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) and introduces seven precompiled functions for the following BLS12-381 curve operations:
 
-| Operation                     | Address | Description                                   |
-|-----------------------------|---------|-----------------------------------------------|
-| BLS12_G1ADD                 | 0x0b    | G1 point addition                             |
-| BLS12_G1MSM                 | 0x0c    | G1 multi-scalar multiplication                |
-| BLS12_G2ADD                 | 0x0d    | G2 point addition                             |
-| BLS12_G2MSM                 | 0x0e    | G2 multi-scalar multiplication                |
-| BLS12_PAIRING_CHECK        | 0x0f    | Pairing check between G1/G2 point pairs       |
-| BLS12_MAP_FP_TO_G1         | 0x10    | Map Fp element to G1                          |
-| BLS12_MAP_FP2_TO_G2        | 0x11    | Map Fp2 element to G2                         |
+This FIP introduces a set of BLS12-381 elliptic curve operations via precompiled contracts, matching the functionality and encoding rules defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These precompiles are intended for cryptographic operations including point addition, multi-scalar multiplication, field-to-curve mapping, and pairing checks, using the BLS12-381 curve.
 
-Detailed gas cost schedules, input/output encoding formats, subgroup checks, and behavior on invalid input match the original EIP-2537 specification and are to be fully implemented within FEVM.
+The following precompile addresses are proposed:
+
+| Operation                  | Address | Description                                     |
+|---------------------------|---------|-------------------------------------------------|
+| `BLS12_G1ADD`             | `0x0b`  | Adds two G1 points (128-byte input, 64-byte each) |
+| `BLS12_G1MSM`             | `0x0c`  | Multi-scalar multiplication over G1             |
+| `BLS12_G2ADD`             | `0x0d`  | Adds two G2 points                              |
+| `BLS12_G2MSM`             | `0x0e`  | Multi-scalar multiplication over G2             |
+| `BLS12_PAIRING_CHECK`     | `0x0f`  | Performs a pairing check over (G1, G2) pairs    |
+| `BLS12_MAP_FP_TO_G1`      | `0x10`  | Maps an Fp element to a point in G1             |
+| `BLS12_MAP_FP2_TO_G2`     | `0x11`  | Maps an Fp2 element to a point in G2            |
+
+Each operation uses the same ABI and data layout as described in EIP-2537, including:
+- **Big-endian byte encoding** of points, scalars, and field elements.
+- **Subgroup checks** where required (e.g. for MSMs and pairings).
+- **Canonical encoding and validation rules** for input field elements.
+- **Deterministic failure modes** on malformed input (e.g. invalid length, non-curve points).
+
+The implementation ensures full compatibility with Ethereum tooling and semantics, enabling cross-chain cryptographic applications and reuse of existing test vectors and infrastructure.
 
 ## Design Rationale
 The precompile design is adapted directly from Ethereum’s EIP-2537 to maximize compatibility and interoperability. The explicit support for MSMs reduces gas costs compared to sequential MUL/ADD operations. Mapping functions are included to support signature schemes like BLS that require field-to-curve mapping. Gas schedules are tuned to reflect worst-case computation while preventing DDoS vectors. Subgroup checks are enforced where necessary to ensure cryptographic correctness.
