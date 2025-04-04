@@ -86,22 +86,8 @@ These verify rejection of malformed, incomplete, or semantically invalid inputs:
 - Invalid top bytes
 - Field elements with illegal encodings
 - Invalid curve points
-- Mismatched input sizes (e.g., unaligned MSM pairs)
-
-#### **MSM-Specific**
-- Point not on curve
 - Point not in correct subgroup
-
-#### **Map-to-Curve**
-- Invalid field element (not in modulus range)
-- Incorrect padding
-- Invalid FP/FP2 byte format
-
-#### **Pairing-Specific**
-- G1 or G2 not on curve
-- G1 or G2 not in correct subgroup
-- Invalid field element in any pairing input
-- Edge case failures where either G1 or G2 is invalid but the other is at infinity
+- Mismatched input sizes (e.g., unaligned MSM pairs)
 
 ### **Edge Case Behaviors (Covered across modules)**
 - Point at infinity as operand in MSM or pairing
