@@ -21,7 +21,6 @@ This FIP proposes the addition of precompiled functions in the FEVM to support B
 BLS12-381 precompiles are essential for supporting cryptographic primitives that require high security (≥120-bit) and efficient signature aggregation. These operations are fundamental to threshold signatures, decentralized identities, zk-rollups, and consensus mechanisms. Currently, the FEVM lacks native support for BLS12-381 operations, creating a performance and compatibility gap with Ethereum-based applications and protocols that rely on this curve. This FIP bridges that gap, bringing parity with Ethereum and enabling new cryptographic use cases on Filecoin.
 
 ## Specification
-
 This FIP introduces a set of BLS12-381 elliptic curve operations via precompiled contracts, matching the functionality and encoding rules defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These precompiles are intended for cryptographic operations including point addition, multi-scalar multiplication, field-to-curve mapping, and pairing checks, using the BLS12-381 curve.
 
 The following precompile addresses are proposed:
@@ -45,7 +44,6 @@ Each operation uses the same ABI and data layout as described in EIP-2537, inclu
 The implementation ensures full compatibility with Ethereum tooling and semantics, enabling cross-chain cryptographic applications and reuse of existing test vectors and infrastructure.
 
 ## Design Rationale
-
 This proposal adopts Ethereum’s EIP-2537 to ensure compatibility with existing tooling and cross-chain applications. By aligning with Ethereum’s design and ABI, developers can reuse BLS-based libraries and workflows without modification.
 
 The inclusion of MSM and field-to-curve mapping operations as precompiles supports important cryptographic use cases such as BLS signature aggregation, zero-knowledge proof systems, L2 subnet consensus, aggregate proofs, and decentralized identity protocols. Exposing these operations as precompiled contracts ensures correctness, consistent validation behavior, and alignment with protocol-layer cryptographic expectations.
@@ -54,7 +52,6 @@ The inclusion of MSM and field-to-curve mapping operations as precompiles suppor
 This FIP introduces new precompile addresses and does not affect existing contract behavior. Contracts not using these addresses remain unaffected. The precompiles are fully opt-in and backwards-compatible.
 
 ## Test Cases
-
 A broad suite of tests is provided with the implementation that validates the behavior of the BLS12-381 precompiles defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These tests ensure both correctness and safety across standard, edge, and invalid input scenarios.
 
 #### The following categories of tests are implemented:
