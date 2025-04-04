@@ -45,7 +45,10 @@ Each operation uses the same ABI and data layout as described in EIP-2537, inclu
 The implementation ensures full compatibility with Ethereum tooling and semantics, enabling cross-chain cryptographic applications and reuse of existing test vectors and infrastructure.
 
 ## Design Rationale
-The precompile design is adapted directly from Ethereum’s EIP-2537 to maximize compatibility and interoperability. The explicit support for MSMs reduces gas costs compared to sequential MUL/ADD operations. Mapping functions are included to support signature schemes like BLS that require field-to-curve mapping. Gas schedules are tuned to reflect worst-case computation while preventing DDoS vectors. Subgroup checks are enforced where necessary to ensure cryptographic correctness.
+
+This proposal adopts Ethereum’s EIP-2537 to ensure compatibility with existing tooling and cross-chain applications. By aligning with Ethereum’s design and ABI, developers can reuse BLS-based libraries and workflows without modification.
+
+The inclusion of MSM and field-to-curve mapping operations as precompiles supports important cryptographic use cases such as BLS signature aggregation, zero-knowledge proof systems, L2 subnet consensus, aggregate proofs, and decentralized identity protocols. Exposing these operations as precompiled contracts ensures correctness, consistent validation behavior, and alignment with protocol-layer cryptographic expectations.
 
 ## Backwards Compatibility
 This FIP introduces new precompile addresses and does not affect existing contract behavior. Contracts not using these addresses remain unaffected. The precompiles are fully opt-in and backwards-compatible.
