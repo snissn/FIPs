@@ -47,8 +47,6 @@ A broad suite of tests is provided with the implementation that validates the be
 
 #### The following categories of tests are implemented:
 
----
-
 ### **Success Case Coverage**
 
 These verify correctness and adherence to cryptographic properties:
