@@ -114,7 +114,47 @@ These verify rejection of malformed, incomplete, or semantically invalid inputs:
 This comprehensive suite ensures correct implementation of the BLS12-381 arithmetic under realistic usage and malicious input conditions, supporting conformance with EIP-2537.
 
 ## Security Considerations
-BLS precompiles introduce cryptographic attack surfaces if implemented incorrectly. This FIP mandates subgroup checks for MSM and pairing operations to prevent rogue key attacks. Precompiles must return errors on invalid encoding or input. Gas burning on errors follows EVM precompile conventions. Constant-time operations are not strictly required but recommended.
+
+This FIP introduces a set of precompiled contracts to perform cryptographic operations over the BLS12-381 elliptic curve, consistent with Ethereum’s [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These include G1/G2 addition, multi-scalar multiplication (MSM), mapping from field elements to curve points, and bilinear pairing checks. The implementation leverages the well-audited `blst` library and mirrors the design and operational constraints of the Ethereum specification.
+
+### Surface and Context
+
+The BLS precompiles expose powerful cryptographic primitives used in aggregate signature verification, threshold cryptography, and zero-knowledge systems. As such, correctness and safety are critical. These operations act on untrusted input and therefore must defend against malformed data, invalid encoding, and subgroup-related attacks.
+
+### Threat Model and Risks
+
+The following threat vectors and risk areas are addressed:
+
+#### 1. **Curve Membership and Subgroup Checks**
+- Operations involving scalar multiplication and pairings **must** perform subgroup checks to prevent cofactor-related attacks and ensure that only points in the prime-order subgroups are used.
+- Our implementation adheres to the subgroup-check requirements laid out in EIP-2537, applying them **after** curve membership and field validity checks to ensure consistency and avoid leaking information about malformed inputs.
+
+#### 2. **Input Validation**
+- All precompiles validate the length and structure of input bytes prior to deserialization.
+- Inputs failing length checks, field modulus checks, or invalid encoding formats are rejected early with clear failure paths.
+- Particular care is taken in mapping precompiles to avoid processing non-canonical field elements or incorrect byte representations.
+
+#### 3. **Constant-Time Operations**
+- All cryptographic operations are performed using the `blst` library, which is designed to run in constant time to mitigate timing-based side-channel attacks.
+- This guarantees uniform execution time regardless of input values, preventing information leakage via timing differences.
+
+#### 4. **Point at Infinity Handling**
+- All operations explicitly handle identity elements and correctly return zero points where expected (e.g., scalar multiplication by zero, or adding a point to its negation).
+- Pairings involving points at infinity are treated as identity elements but still undergo validation to ensure that no malformed input is accepted.
+
+#### 5. **Error Handling and Deterministic Fails**
+- The implementation provides deterministic and transparent error behavior for all malformed inputs.
+- Inputs that are malformed in ways that could lead to unpredictable behavior (e.g., truncated input, invalid field elements) result in failure with no side effects.
+
+#### 6. **Compatibility and Cross-Chain Consistency**
+- Matching Ethereum’s EIP-2537 ensures consistency for cross-chain cryptographic applications and tooling.
+- Test vectors and behaviors are aligned with Ethereum’s reference implementation to support shared ecosystem tooling and audits.
+
+### Implementation Safeguards
+
+- The implementation includes extensive unit tests covering edge cases, invalid inputs, and critical functional properties (e.g., bilinearity of pairing, subgroup correctness).
+- All tests are built against known-good vectors and checked for conformance against Ethereum-compatible expectations.
+- The use of precompiles restricts these operations to controlled execution contexts, reducing the attack surface compared to userland implementations.
 
 ## Incentive Considerations
 Enabling efficient BLS operations enhances support for use cases like decentralized storage verification, threshold signing, and zk-rollup integration. These use cases directly improve Filecoin’s reliability, performance, and application ecosystem. While no direct protocol incentive changes are introduced, better cryptographic primitives contribute to Filecoin’s long-term network utility.
