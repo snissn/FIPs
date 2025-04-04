@@ -42,13 +42,78 @@ The precompile design is adapted directly from Ethereum’s EIP-2537 to maximize
 This FIP introduces new precompile addresses and does not affect existing contract behavior. Contracts not using these addresses remain unaffected. The precompiles are fully opt-in and backwards-compatible.
 
 ## Test Cases
-Test vectors and functional properties will follow the EIP-2537 test suite, including:
-- Point addition and multiplication associativity
-- Pairing bilinearity and non-degeneracy
-- MSM performance benchmarks
-- Subgroup validation
 
-A full suite of test vectors and performance benchmarks will be published alongside implementation.
+A broad suite of tests is provided with the implementation that validates the behavior of the BLS12-381 precompiles defined in [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537). These tests ensure both correctness and safety across standard, edge, and invalid input scenarios.
+
+#### The following categories of tests are implemented:
+
+---
+
+### **Success Case Coverage**
+
+These verify correctness and adherence to cryptographic properties:
+
+#### **G1ADD / G2ADD**
+- Point addition with valid G1/G2 inputs
+- Addition with identity point (0)
+- Doubling (`P + P`)
+- Subtraction (`P + (-P)` → 0)
+- Commutativity checks
+
+#### **G1MSM / G2MSM**
+- Weighted sums with valid `(point, scalar)` pairs
+- Scalars: `0`, `1`, and random values
+- Mix of valid points, including points at infinity
+- Multiple pairs and varying lengths
+
+#### **MAP_FP_TO_G1 / MAP_FP2_TO_G2**
+- Mapping various valid field elements (from clean byte strings)
+- Verifies resulting points lie on curve and in correct subgroup
+
+#### **PAIRING**
+- Pairing identity: `e(0, 0) = 1`, `e(P, Q) * e(P, -Q) = 1`
+- Bilinearity: `e(aP, bQ) = e(P, Q)^{ab}`
+- Zero contributions: `e(P, 0) = e(0, Q) = 1`
+- Multi-pair checks validating associativity and multiplicative accumulation
+- Mix of G1 and G2 in normal and negated forms
+
+### **Failure Case Coverage**
+
+These verify rejection of malformed, incomplete, or semantically invalid inputs:
+
+#### **General Input Errors (All Opcodes)**
+- Empty input
+- Short input
+- Extra bytes (long input)
+- Invalid top bytes
+- Field elements with illegal encodings
+- Invalid curve points
+- Mismatched input sizes (e.g., unaligned MSM pairs)
+
+#### **MSM-Specific**
+- Point not on curve
+- Point not in correct subgroup
+- Scalar and point count mismatch
+
+#### **Map-to-Curve**
+- Invalid field element (not in modulus range)
+- Incorrect padding
+- Invalid FP/FP2 byte format
+
+#### **Pairing-Specific**
+- G1 or G2 not on curve
+- G1 or G2 not in correct subgroup
+- Invalid field element in any pairing input
+- Edge case failures where either G1 or G2 is invalid but the other is at infinity
+
+### **Edge Case Behaviors (Covered across modules)**
+- Point at infinity as operand in MSM or pairing
+- Scalar = 0 in MSM (yields zero contribution)
+- Double vs. add equivalence in G1ADD/G2ADD
+- Mixed representations and ordering (commutative symmetry)
+- Subgroup validation logic invoked only *after* full field element validation
+
+This comprehensive suite ensures correct implementation of the BLS12-381 arithmetic under realistic usage and malicious input conditions, supporting conformance with EIP-2537.
 
 ## Security Considerations
 BLS precompiles introduce cryptographic attack surfaces if implemented incorrectly. This FIP mandates subgroup checks for MSM and pairing operations to prevent rogue key attacks. Precompiles must return errors on invalid encoding or input. Gas burning on errors follows EVM precompile conventions. Constant-time operations are not strictly required but recommended.
