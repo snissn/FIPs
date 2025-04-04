@@ -91,7 +91,6 @@ These verify rejection of malformed, incomplete, or semantically invalid inputs:
 #### **MSM-Specific**
 - Point not on curve
 - Point not in correct subgroup
-- Scalar and point count mismatch
 
 #### **Map-to-Curve**
 - Invalid field element (not in modulus range)
