@@ -128,19 +128,15 @@ The following threat vectors and risk areas are addressed:
 - Inputs failing length checks, field modulus checks, or invalid encoding formats are rejected early with clear failure paths.
 - Particular care is taken in mapping precompiles to avoid processing non-canonical field elements or incorrect byte representations.
 
-#### 3. **Constant-Time Operations**
-- All cryptographic operations are performed using the `blst` library, which is designed to run in constant time to mitigate timing-based side-channel attacks.
-- This guarantees uniform execution time regardless of input values, preventing information leakage via timing differences.
-
-#### 4. **Point at Infinity Handling**
+#### 3. **Point at Infinity Handling**
 - All operations explicitly handle identity elements and correctly return zero points where expected (e.g., scalar multiplication by zero, or adding a point to its negation).
 - Pairings involving points at infinity are treated as identity elements but still undergo validation to ensure that no malformed input is accepted.
 
-#### 5. **Error Handling and Deterministic Fails**
+#### 4. **Error Handling and Deterministic Fails**
 - The implementation provides deterministic and transparent error behavior for all malformed inputs.
 - Inputs that are malformed in ways that could lead to unpredictable behavior (e.g., truncated input, invalid field elements) result in failure with no side effects.
 
-#### 6. **Compatibility and Cross-Chain Consistency**
+#### 5. **Compatibility and Cross-Chain Consistency**
 - Matching Ethereum’s EIP-2537 ensures consistency for cross-chain cryptographic applications and tooling.
 - Test vectors and behaviors are aligned with Ethereum’s reference implementation to support shared ecosystem tooling and audits.
 
