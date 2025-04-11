@@ -153,7 +153,7 @@ Enabling efficient BLS operations enhances support for use cases like decentrali
 BLS precompiles improve developer experience by enabling advanced applications (e.g., zk-proof aggregation, BLS-based voting, and signature-based storage proofs). This upgrade positions Filecoin as a capable and attractive platform for cryptographically advanced dApps and aligns with emerging Ethereum tooling standards.
 
 ## Implementation
-Reference implementation will be integrated into the `builtin-actors` FEVM runtime. A pull request with a working precompile set and test coverage will be submitted following FIP acceptance.
+Reference implementation will be integrated into the `builtin-actors` FEVM runtime. A pull request with a working precompile set and test coverage can be viewed [here](https://github.com/filecoin-project/builtin-actors/pull/1669).
 
 ## Copyright
 Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
